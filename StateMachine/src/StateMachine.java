@@ -37,6 +37,7 @@ public class StateMachine {
 
     private void traceSequence(String filepath) throws IOException, NotValidSequenceException {
         currentState = 0;
+
         try (Reader reader = new FileReader(new File(filepath))) {
             int read;
             while ((read = reader.read()) > 0) {
@@ -45,7 +46,7 @@ public class StateMachine {
                 if (currentState == null) throw new NotValidSequenceException("character '" + label.toString() + "' doesn't belong to the alphabet");
             }
         }
-        if (currentState != 0) throw new NotValidSequenceException("sequence in the input file " + " doesn't belong to the language of the state machine");
+        if (!finalStates.contains(currentState)) throw new NotValidSequenceException("sequence in the input file " + " doesn't belong to the language of the state machine");
     }
 
     public void validateSequence(String filePath) throws InputFileException, NotValidSequenceException {
